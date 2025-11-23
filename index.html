@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NACOS | Sandwich Night</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="logo">NACOS</div>
+      <div class="cart-btn-container">
+        <button id="cart-toggle" aria-label="Abrir carrito">
+          🛒 <span id="cart-count">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Sabor Nocturno</h1>
+        <p>Los mejores sándwiches para tus noches. Pide ahora y disfruta.</p>
+      </section>
+
+      <section class="menu-container">
+        <div id="menu-grid" class="menu-grid">
+          <!-- Menu items will be injected here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <aside id="cart-sidebar" class="cart-sidebar">
+      <div class="cart-header">
+        <h2>Tu Pedido</h2>
+        <button class="close-cart" id="close-cart">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items">
+        <!-- Cart items will be injected here -->
+        <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">Tu carrito está vacío.</p>
+      </div>
+      <div class="cart-footer">
+        <div class="total">
+          <span>Total:</span>
+          <span id="cart-total">$0</span>
+        </div>
+        <div id="cart-location-option" style="margin-bottom: 1rem; display: none; align-items: center;">
+          <!-- Checkbox injected by JS -->
+        </div>
+        <button id="checkout-btn" class="checkout-btn">Pedir por WhatsApp</button>
+      </div>
+    </aside>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
