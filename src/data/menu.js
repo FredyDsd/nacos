@@ -1,3 +1,7 @@
+// Para usar imágenes locales:
+// 1. Guarda tu foto en la carpeta 'public/images' (ej: sandwich.jpg)
+// 2. Usa la ruta: image: "/images/sandwich.jpg"
+
 export const menuItems = [
   {
     id: 1,
