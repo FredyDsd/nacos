@@ -138,6 +138,11 @@ export class Cart {
                         </div>
 
                         <div class="form-group">
+                            <label>Teléfono *</label>
+                            <input type="text" id="customer-phone" placeholder="Tu número de celular" required>
+                        </div>
+
+                        <div class="form-group">
                             <label>Entrega *</label>
                             <div class="radio-group">
                                 <label>
@@ -205,6 +210,7 @@ export class Cart {
 
     checkout() {
         const name = document.getElementById('customer-name')?.value.trim();
+        const phone = document.getElementById('customer-phone')?.value.trim();
         const address = document.getElementById('customer-address')?.value.trim();
         const description = document.getElementById('customer-description')?.value.trim();
         const deliveryType = document.querySelector('input[name="delivery-type"]:checked')?.value;
@@ -216,6 +222,11 @@ export class Cart {
             return;
         }
 
+        if (!phone) {
+            alert("Por favor, ingresa tu número de teléfono.");
+            return;
+        }
+
         if (!address) {
             alert("Por favor, ingresa tu dirección.");
             return;
@@ -223,6 +234,7 @@ export class Cart {
 
         const customerData = {
             name,
+            phone,
             address,
             description,
             deliveryType: deliveryType === 'mi-direccion' ? 'Mi dirección' : 'Otra dirección',

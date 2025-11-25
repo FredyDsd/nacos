@@ -10,6 +10,7 @@ export const sendOrderToWhatsApp = (cartItems, total, location = null, customerD
 
     if (customerData) {
         message += `*Cliente:* ${customerData.name}\n`;
+        message += `*Teléfono:* ${customerData.phone}\n`;
         message += `*Entrega:* ${customerData.deliveryType}\n`;
         message += `*Dirección:* ${customerData.address}`;
         if (customerData.description) {
