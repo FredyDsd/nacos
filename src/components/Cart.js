@@ -100,11 +100,17 @@ export class Cart {
 
         // Add listeners to new buttons
         this.cartItemsContainer.querySelectorAll('.minus').forEach(btn => {
-            btn.addEventListener('click', (e) => this.updateQuantity(parseInt(e.target.dataset.id), -1));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.updateQuantity(parseInt(e.target.dataset.id), -1);
+            });
         });
 
         this.cartItemsContainer.querySelectorAll('.plus').forEach(btn => {
-            btn.addEventListener('click', (e) => this.updateQuantity(parseInt(e.target.dataset.id), 1));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.updateQuantity(parseInt(e.target.dataset.id), 1);
+            });
         });
 
         // Show location option if cart has items
