@@ -141,7 +141,7 @@ export class Cart {
                             <label>Entrega *</label>
                             <div class="radio-group">
                                 <label>
-                                    <input type="radio" name="delivery-type" value="mi-direccion" checked> Mi dirección
+                                    <input type="radio" name="delivery-type" value="mi-direccion"> Mi dirección
                                 </label>
                                 <label>
                                     <input type="radio" name="delivery-type" value="otra-direccion"> Otra
@@ -149,21 +149,23 @@ export class Cart {
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Dirección *</label>
-                            <input type="text" id="customer-address" placeholder="Calle y número" required>
-                        </div>
+                        <div id="delivery-details" style="display: none;">
+                            <div class="form-group">
+                                <label>Dirección *</label>
+                                <input type="text" id="customer-address" placeholder="Calle y número" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Descripción (Opcional)</label>
-                            <input type="text" id="customer-description" placeholder="Ej: Casa verde, rejas negras">
-                        </div>
+                            <div class="form-group">
+                                <label>Descripción (Opcional)</label>
+                                <input type="text" id="customer-description" placeholder="Ej: Casa verde, rejas negras">
+                            </div>
 
-                        <div class="form-group" id="location-checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="include-location">
-                                Incluir mi ubicación actual
-                            </label>
+                            <div class="form-group" id="location-checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="include-location">
+                                    Incluir mi ubicación actual
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -182,10 +184,12 @@ export class Cart {
 
                 // Add listener for delivery type change
                 const deliveryRadios = this.locationOptionContainer.querySelectorAll('input[name="delivery-type"]');
+                const deliveryDetails = this.locationOptionContainer.querySelector('#delivery-details');
                 const locationGroup = this.locationOptionContainer.querySelector('#location-checkbox-group');
 
                 deliveryRadios.forEach(radio => {
                     radio.addEventListener('change', (e) => {
+                        deliveryDetails.style.display = 'block';
                         if (e.target.value === 'mi-direccion') {
                             locationGroup.style.display = 'block';
                         } else {
