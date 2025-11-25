@@ -126,23 +126,106 @@ export class Cart {
             });
         });
 
-        // Show location option if cart has items
+        // Inject Form
         if (this.locationOptionContainer) {
-            this.locationOptionContainer.style.display = 'flex';
-            // Check if checkbox already exists to avoid re-injecting
-            if (!this.locationOptionContainer.querySelector('#include-location')) {
+            this.locationOptionContainer.style.display = 'block';
+            if (!this.locationOptionContainer.querySelector('.checkout-form')) {
                 this.locationOptionContainer.innerHTML = `
-                    <input type="checkbox" id="include-location">
-                    <label for="include-location" style="margin-left: 0.5rem; cursor: pointer;">Incluir mi ubicación</label>
+                    <div class="checkout-form">
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input type="text" id="customer-name" placeholder="Tu nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Entrega *</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="delivery-type" value="mi-direccion" checked> Mi dirección
+                                </label>
+                                <label>
+                                    <input type="radio" name="delivery-type" value="otra-direccion"> Otra
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirección *</label>
+                            <input type="text" id="customer-address" placeholder="Calle y número" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descripción (Opcional)</label>
+                            <input type="text" id="customer-description" placeholder="Ej: Casa verde, rejas negras">
+                        </div>
+
+                        <div class="form-group" id="location-checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="include-location">
+                                Incluir mi ubicación actual
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Método de Pago *</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="payment-method" value="efectivo" checked> Efectivo
+                                </label>
+                                <label>
+                                    <input type="radio" name="payment-method" value="transferencia"> Transferencia
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 `;
+
+                // Add listener for delivery type change
+                const deliveryRadios = this.locationOptionContainer.querySelectorAll('input[name="delivery-type"]');
+                const locationGroup = this.locationOptionContainer.querySelector('#location-checkbox-group');
+
+                deliveryRadios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if (e.target.value === 'mi-direccion') {
+                            locationGroup.style.display = 'block';
+                        } else {
+                            locationGroup.style.display = 'none';
+                            // Uncheck location if hidden
+                            this.locationOptionContainer.querySelector('#include-location').checked = false;
+                        }
+                    });
+                });
             }
         }
     }
 
     checkout() {
+        const name = document.getElementById('customer-name')?.value.trim();
+        const address = document.getElementById('customer-address')?.value.trim();
+        const description = document.getElementById('customer-description')?.value.trim();
+        const deliveryType = document.querySelector('input[name="delivery-type"]:checked')?.value;
+        const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
         const includeLocation = document.getElementById('include-location')?.checked;
 
-        if (includeLocation) {
+        if (!name) {
+            alert("Por favor, ingresa tu nombre.");
+            return;
+        }
+
+        if (!address) {
+            alert("Por favor, ingresa tu dirección.");
+            return;
+        }
+
+        const customerData = {
+            name,
+            address,
+            description,
+            deliveryType: deliveryType === 'mi-direccion' ? 'Mi dirección' : 'Otra dirección',
+            paymentMethod: paymentMethod === 'efectivo' ? 'Efectivo' : 'Transferencia'
+        };
+
+        if (includeLocation && deliveryType === 'mi-direccion') {
             if ("geolocation" in navigator) {
                 this.checkoutBtn.textContent = "Obteniendo ubicación...";
                 this.checkoutBtn.disabled = true;
@@ -153,22 +236,22 @@ export class Cart {
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
-                        sendOrderToWhatsApp(this.items, this.getTotal(), location);
+                        sendOrderToWhatsApp(this.items, this.getTotal(), location, customerData);
                         this.resetCheckoutBtn();
                     },
                     (error) => {
                         console.error("Error getting location:", error);
                         alert("No se pudo obtener la ubicación. Se enviará el pedido sin ella.");
-                        sendOrderToWhatsApp(this.items, this.getTotal());
+                        sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
                         this.resetCheckoutBtn();
                     }
                 );
             } else {
                 alert("Tu navegador no soporta geolocalización.");
-                sendOrderToWhatsApp(this.items, this.getTotal());
+                sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
             }
         } else {
-            sendOrderToWhatsApp(this.items, this.getTotal());
+            sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
         }
     }
 
