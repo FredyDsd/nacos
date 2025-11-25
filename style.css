@@ -58,6 +58,14 @@ header {
   align-items: center;
 }
 
+.logo img {
+  height: 120px;
+  /* Ajusta este valor para cambiar el tamaño */
+  width: auto;
+  border-radius: 80%;
+  /* Opcional: si quieres que sea redondo */
+}
+
 .cart-btn-container {
   position: relative;
 }
