@@ -279,10 +279,26 @@ header {
   color: #000;
 }
 
-.cart-footer {
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1rem;
+.delete-btn {
+  background: transparent;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  transition: var(--transition);
+  padding: 0;
+}
+
+.delete-btn:hover {
+  background: #ff4d4d;
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
 }
 
 .total {
