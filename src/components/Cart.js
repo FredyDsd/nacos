@@ -253,26 +253,36 @@ export class Cart {
                             longitude: position.coords.longitude
                         };
                         sendOrderToWhatsApp(this.items, this.getTotal(), location, customerData);
+                        this.clearCart();
                         this.resetCheckoutBtn();
                     },
                     (error) => {
                         console.error("Error getting location:", error);
                         alert("No se pudo obtener la ubicación. Se enviará el pedido sin ella.");
                         sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
+                        this.clearCart();
                         this.resetCheckoutBtn();
                     }
                 );
             } else {
                 alert("Tu navegador no soporta geolocalización.");
                 sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
+                this.clearCart();
             }
         } else {
             sendOrderToWhatsApp(this.items, this.getTotal(), null, customerData);
+            this.clearCart();
         }
     }
 
     resetCheckoutBtn() {
         this.checkoutBtn.textContent = "Pedir por WhatsApp";
         this.checkoutBtn.disabled = false;
+    }
+
+    clearCart() {
+        this.items = [];
+        this.render();
+        this.cartSidebar.classList.remove('open');
     }
 }
