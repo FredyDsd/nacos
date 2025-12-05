@@ -1,5 +1,5 @@
 export const sendOrderToWhatsApp = (cartItems, total, location = null, customerData = null) => {
-    const phoneNumber = "5493884571967";
+    const phoneNumber = "5493884140935";
 
     if (cartItems.length === 0) {
         alert("El carrito está vacío.");
